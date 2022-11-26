@@ -2,7 +2,6 @@ import ds4se.facade as facade
 import os
 import sys
 import ast
-#changing file to test it
 
 def new_probability(num1, num2):   #written as a function to be more easily updated to a different algorithm later
     return (num1+num2)/2
@@ -12,7 +11,7 @@ def outputValues(model, values):
         for key in values:
             if (float(values[key]) >= outputThreshold):
                 print("Source File: ",key, "Target File: ", targetFilename, "Traceability: ",values[key])
-                writeFile.write("Model:"+ model + "\tSource File: " + key + ", Target File: " + targetFilename + ", Traceability: " + str(values[key]) + '\n')
+                writeFile.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + targetFilename + ", Traceability: " + str(values[key]) + '\n')
         writeFile.close()
 
 os.chdir('../../')
@@ -55,5 +54,5 @@ for targetFilename in targetList:
 
     outputValues("word2vec, metric = WMD", valuesWMD)
     outputValues("word2vec, metric = SCM", valuesSCM)
-    outputValues("doc2vec", valuesDoc)
+    # outputValues("doc2vec", valuesDoc)
    

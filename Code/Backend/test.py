@@ -49,9 +49,9 @@ input = ast.literal_eval(sys.argv[5]) #the dictionary with (targetFile, sourceFi
 
 for targetFilename in targetList:
 
-    valuesWMD = traceabilityResult(sourcePath, targetPath, input, "word2vec", "WMD")
-    valuesSCM = traceabilityResult(sourcePath, targetPath, input, "word2vec", "SCM")
-    valuesDoc = traceabilityResult(sourcePath, targetPath, input, "doc2vec")
+    valuesWMD = traceabilityResult(sourcePath, targetPath, targetFilename, input, "word2vec", "WMD")
+    valuesSCM = traceabilityResult(sourcePath, targetPath, targetFilename, input, "word2vec", "SCM")
+    valuesDoc = traceabilityResult(sourcePath, targetPath, targetFilename, input, "doc2vec")
 
 
 

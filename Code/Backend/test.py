@@ -6,13 +6,13 @@ import ast
 def new_probability(num1, num2):   #written as a function to be more easily updated to a different algorithm later
     return (num1+num2)/2
 
-def outputValues(model, values):
-     with open(os.getcwd() + sys.argv[3], 'w', encoding='latin1') as writeFile:
+def outputValues(model, values, file):
+    
         for key in values:
             if (float(values[key]) >= outputThreshold):
                 print("Source File: ",key, "Target File: ", targetFilename, "Traceability: ",values[key])
-                writeFile.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + targetFilename + ", Traceability: " + str(values[key]) + '\n')
-        writeFile.close()
+                file.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + targetFilename + ", Traceability: " + str(values[key]) + '\n')
+        
 
 os.chdir('../../')
 sourcePath = os.getcwd() + sys.argv[1]
@@ -52,7 +52,10 @@ for targetFilename in targetList:
         valuesSCM[sourceFilename] = traceResultSCM
         valuesDoc[sourceFilename] = traceResultDoc
 
-    outputValues("word2vec, metric = WMD", valuesWMD)
-    outputValues("word2vec, metric = SCM", valuesSCM)
-    # outputValues("doc2vec", valuesDoc)
+    with open(os.getcwd() + sys.argv[3], 'w', encoding='latin1') as writeFile:
+
+        outputValues("word2vec, metric = WMD", valuesWMD, writeFile)
+        outputValues("word2vec, metric = SCM", valuesSCM, writeFile)
+        outputValues("doc2vec", valuesDoc, writeFile)
+        writeFile.close()
    

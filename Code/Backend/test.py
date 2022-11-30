@@ -48,7 +48,7 @@ feedbackTargetList = sys.argv[6].split(",")
 feedbackNumList = sys.argv[7].split(",")
 input={} #dictionary to be filled
 for i in range (len(feedbackSourceList)):
-    input[feedbackSourceList[i]+" "feedbackTargetList[i]]=float(feedbackNumList[i]) #the dictionary with (targetFile, sourceFile) -- a tuple -- as the key and the probability as the value
+    input[feedbackSourceList[i]+" "+feedbackTargetList[i]]=float(feedbackNumList[i]) #the dictionary with (targetFile, sourceFile) -- a tuple -- as the key and the probability as the value
 
 for targetFilename in targetList:
 

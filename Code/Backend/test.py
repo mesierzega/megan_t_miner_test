@@ -4,7 +4,7 @@ import os
 import sys
 
 config = configparser.ConfigParser()
-config.read('~/pyConfig.ini')
+config.read('../../pyConfig.ini')
 print(config.sections())
 facade = importlib.import_module(config["Imports"]["Import1"])
 traceLink = getattr(facade,config["FunctionName"]["Function"])

@@ -5,12 +5,10 @@ import sys
 
 config = configparser.ConfigParser()
 config.read('../../pyConfig.ini')
-print(config.sections())
 facade = importlib.import_module(config["Imports"]["Import1"])
 traceLink = getattr(facade,config["FunctionName"]["Function"])
 param1 = config["FunctionParams"]["Param1"]
 param2 = config["FunctionParams"]["Param2"]
-print(param1,param2)
 def new_probability(num1, num2):   #written as a function to be more easily updated to a different algorithm later
     return (num1+num2)/2
     

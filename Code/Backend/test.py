@@ -5,6 +5,7 @@ import sys
 
 config = configparser.ConfigParser()
 config.read('~/pyConfig.ini')
+print('hello')
 facade = importlib.import_module(config["Imports"]["Import1"])
 traceLink = getattr(facade,config["FunctionName"]["Function"])
 param1 = config["FunctionParams"]["Param1"]

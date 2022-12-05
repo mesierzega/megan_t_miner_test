@@ -1,0 +1,24 @@
+name: Action To Get Commits.py
+run-name: ${{ github.actor }} Run of Get Commit Messages
+on: [pull_request]
+
+jobs:
+  Example-Action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'PR commits + 1'
+        run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: ${{ env.PR_FETCH_DEPTH }}
+    # grab default branch to calculate branch point to know when to stop linting
+      - run: |
+          cd ./Code/Backend
+          touch Commits_Report.txt
+          git log >> Commits_Report.txt
+      - name: Upload changed files list
+        uses: actions/upload-artifact@v3
+        with:
+          name: Commit Report
+          path: Code/Backend/Commits_Report.txt

@@ -28,7 +28,9 @@ def traceabilityResult(source, target, targetFile, feedback, model, metric = Non
 
         traceResult = result[1]
         tmpStr = targetFile+" "+sourceFilename
+        print(tmpStr)
         if tmpStr in input:  #check if the file pair is in the input from the user
+            print(tmpStr,"ok")
             traceResult = new_probability(traceResult, float(feedback[tmpStr]))  #recalculating the probability
 
         # print("Source File: ",sourceFilename, "Target File: ", targetFilename, "Traceability: ",result)

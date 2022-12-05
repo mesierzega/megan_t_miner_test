@@ -38,12 +38,11 @@ def traceabilityResult(source, target, targetFile, feedback, model, metric = Non
     return values
     
 def outputValues(model, valuesDict, outputThreshold, curFile, output):
-    print(outputThreshold, "hello")
     for key in valuesDict:
         if (float(valuesDict[key]) >= outputThreshold):
             print("Source File: ",key, "Target File: ", curFile, "Traceability: ",valuesDict[key])
             output.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + curFile + ", Traceability: " + str(valuesDict[key]) + '\n')
-        
+  
 
 os.chdir('../../')
 sourcePath = os.getcwd() + sys.argv[1]
@@ -56,7 +55,7 @@ feedbackNumList = sys.argv[7].split(",")
 input={} #dictionary to be filled
 for i in range (len(feedbackSourceList)):
     input[feedbackSourceList[i]+" "+feedbackTargetList[i]]=float(feedbackNumList[i]) #the dictionary with (targetFile sourceFile, feedbackValue)
- 
+print(input, "hi") 
 for targetFilename in targetList:
 
     valuesWMD = traceabilityResult(sourcePath, targetPath, targetFilename, input, param1, param2)

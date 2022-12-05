@@ -21,10 +21,13 @@ def traceabilityResult(source, target, targetFile, feedback, model, metric = Non
         with open(os.path.join(source,sourceFilename), 'r', encoding='latin1') as f:
             sourceData = f.read()
             f.close()
-        if metric is None:
-            result = traceLink(sourceData,targetData, model)
+        if model is not None:
+            if metric is None:
+                result = traceLink(sourceData,targetData, model)
+            else:
+                result = traceLink(sourceData,targetData, model, metric)
         else:
-            result = traceLink(sourceData,targetData, model, metric)
+            result = traceLink(sourceData, targetData)
 
         traceResult = result[1]
         tmpStr = targetFile+" "+sourceFilename

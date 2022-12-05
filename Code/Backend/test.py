@@ -65,7 +65,7 @@ for targetFilename in targetList:
 
 
 
-    with open(os.getcwd() + sys.argv[3], 'w', encoding='latin1') as writeFile:
+    with open(os.getcwd() + sys.argv[3], "a+", encoding='latin1') as writeFile:
 
         outputValues("word2vec, metric = WMD", valuesWMD, threshold, targetFilename, writeFile)
         outputValues("word2vec, metric = SCM", valuesSCM, threshold, targetFilename, writeFile)

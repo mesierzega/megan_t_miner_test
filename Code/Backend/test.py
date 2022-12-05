@@ -1,11 +1,17 @@
-import ds4se.facade as facade
+import configparser
+import importlib
 import os
 import sys
-import ast
 
+config = configparser.ConfigParser()
+config.read('../../pyConfig.ini')
+facade = importlib.import_module(config["Imports"]["Import1"])
+traceLink = getattr(facade,config["FunctionName"]["Function"])
+param1 = config["FunctionParams"]["Param1"]
+param2 = config["FunctionParams"]["Param2"]
 def new_probability(num1, num2):   #written as a function to be more easily updated to a different algorithm later
     return (num1+num2)/2
-
+    
 def traceabilityResult(source, target, targetFile, feedback, model, metric = None):
     with open(os.path.join(target, targetFile), 'r', encoding='latin1') as f: # open in readonly mode
         targetData = f.read()
@@ -16,9 +22,9 @@ def traceabilityResult(source, target, targetFile, feedback, model, metric = Non
             sourceData = f.read()
             f.close()
         if metric is None:
-            result = facade.TraceLinkValue(sourceData,targetData, model)
+            result = traceLink(sourceData,targetData, model)
         else:
-            result = facade.TraceLinkValue(sourceData,targetData, model, metric)
+            result = traceLink(sourceData,targetData, model, metric)
 
         traceResult = result[1]
         tmpStr = targetFile+" "+sourceFilename
@@ -44,12 +50,16 @@ sourcePath = os.getcwd() + sys.argv[1]
 targetPath = os.getcwd()
 targetList = open(os.getcwd() + sys.argv[2], 'r', encoding='latin1').read().splitlines()
 threshold = float(sys.argv[4]) 
-input = ast.literal_eval(sys.argv[5]) #the dictionary with (targetFile, sourceFile) -- a tuple -- as the key and the probability as the value
-#dictionary to be filled later
-
+feedbackSourceList = sys.argv[5].split(",")
+feedbackTargetList = sys.argv[6].split(",")
+feedbackNumList = sys.argv[7].split(",")
+input={} #dictionary to be filled
+for i in range (len(feedbackSourceList)):
+    input[feedbackSourceList[i]+" "+feedbackTargetList[i]]=float(feedbackNumList[i]) #the dictionary with (targetFile sourceFile, feedbackValue)
+ 
 for targetFilename in targetList:
 
-    valuesWMD = traceabilityResult(sourcePath, targetPath, targetFilename, input, "word2vec", "WMD")
+    valuesWMD = traceabilityResult(sourcePath, targetPath, targetFilename, input, param1, param2)
     valuesSCM = traceabilityResult(sourcePath, targetPath, targetFilename, input, "word2vec", "SCM")
     valuesDoc = traceabilityResult(sourcePath, targetPath, targetFilename, input, "doc2vec")
 
@@ -61,4 +71,3 @@ for targetFilename in targetList:
         outputValues("word2vec, metric = SCM", valuesSCM, threshold, targetFilename, writeFile)
         outputValues("doc2vec", valuesDoc, threshold, targetFilename, writeFile)
         writeFile.close()
-   

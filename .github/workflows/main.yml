@@ -1,6 +1,11 @@
 name: Action To Run test.py
-run-name: ${{ github.actor }} run of Test.py Action Demo
-on: [pull_request]
+run-name: ${{ github.actor }} run of Test.py Integration
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
 
 jobs:
   Example-Action:

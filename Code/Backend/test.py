@@ -40,11 +40,10 @@ def traceabilityResult(source, target, targetFile, feedback, model, metric = Non
 
 # outputs the traceability value for the given model to a file, organizes/labels the output
 def outputValues(model, valuesDict, outputThreshold, curFile, output):   
-    
-        for key in valuesDict:
-            if (float(valuesDict[key]) >= outputThreshold):
-                print("Source File: ",key, "Target File: ", curFile, "Traceability: ", valuesDict[key], 2)
-                output.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + curFile + ", Traceability: " + str(valuesDict[key]) + '\n')
+    for key in valuesDict:
+        if (float(valuesDict[key]) >= outputThreshold):
+            print("Source File: ",key, "Target File: ", curFile, "Traceability: ",valuesDict[key])
+            output.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + curFile + ", Traceability: " + str(valuesDict[key]) + '\n')
         
 
 os.chdir('../../')
@@ -71,7 +70,7 @@ for targetFilename in targetList: # calculate the traceability values for each t
 
 
 
-    with open(os.getcwd() + sys.argv[3], 'w', encoding='latin1') as writeFile:  # ouputting each of the values for the different models from DS4SE traceability library
+    with open(os.getcwd() + sys.argv[3], 'a+', encoding='latin1') as writeFile:  # ouputting each of the values for the different models from DS4SE traceability library
 
         outputValues((param1 +", "+param2), valuesWMD, threshold, targetFilename, writeFile)
         # outputValues("word2vec, metric = SCM", valuesSCM, threshold, targetFilename, writeFile)

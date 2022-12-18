@@ -16,7 +16,7 @@ def new_probability(num1, num2):   #written as a function to be more easily upda
     return (num1+num2)/2
     
 # calculates the traceabilty value for the given source and target with the given model(from a traceability library) and metric if needed
-def traceabilityResult(source, target, targetFile, feedback, model, metric = None):
+def traceabilityResult(source, target, targetFile, feedback, model = None, metric = None):
     with open(os.path.join(target, targetFile), 'r', encoding='latin1') as f: # open in readonly mode
         targetData = f.read()
         f.close()
@@ -25,6 +25,8 @@ def traceabilityResult(source, target, targetFile, feedback, model, metric = Non
         with open(os.path.join(source,sourceFilename), 'r', encoding='latin1') as f:
             sourceData = f.read()
             f.close()
+        if model is None:
+            result = traceLink(sourceData,targetData)   # for the case of a different traceability library that might not have extra parameters
         if metric is None:
             result = traceLink(sourceData,targetData, model)
         else:

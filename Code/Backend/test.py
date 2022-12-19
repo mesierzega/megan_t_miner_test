@@ -43,11 +43,11 @@ def traceabilityResult(source, target, targetFile, feedback, model = None, metri
 
 # outputs the traceability value for the given model to a file, organizes/labels the output
 def outputValues(model, valuesDict, outputThreshold, curFile, output):  
-    sorted_valuesDict = sorted(valuesDict.items(), key=operator.itemgetter(1), reverse=True) 
-    for key in sorted_valuesDict:
-        if (float(valuesDict[key[0]]) >= outputThreshold):
-            print("Source File: ",key[0], "Target File: ", curFile, "Traceability: ",valuesDict[key[0]])
-            output.write("Model:"+ model + "\nSource File: " + key[0] + ", Target File: " + curFile + ", Traceability: " + str(valuesDict[key[0]]) + '\n')
+    sorted_valuesDict = {k: v for k, v in sorted(valuesDict.items(), key=operator.itemgetter(1), reverse=True)}
+    for key in valuesDict:
+        if (float(sorted_valuesDict[key]) >= outputThreshold):
+            print("Source File: ",key, "Target File: ", curFile, "Traceability: ",sorted_valuesDict[key])
+            output.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + curFile + ", Traceability: " + str(sorted_valuesDict[key]) + '\n')
         
 
 os.chdir('../../')

@@ -1,5 +1,5 @@
-name: Action To Run test.py
-run-name: ${{ github.actor }} run of Test.py Action Demo
+name: Action To Run traceability.py
+run-name: ${{ github.actor }} run of traceability.py Action Demo
 on: [pull_request]
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
           echo "<!DOCTYPE html><html><head><title>T-Miner Traceability Report</title></head><body><p>Commit Details: " >> Traceability_Report.html
           git log >> Traceability_Report.html
           echo "</p><ol>" >> Traceability_Report.html
-          python test.py $sourcePath $targetList $outputFile $targetThreshold $targetSourceString $targetString $targetSourceValue ${{ github.repository }}
+          python traceability.py $sourcePath $targetList $outputFile $targetThreshold $targetSourceString $targetString $targetSourceValue ${{ github.repository }}
           echo "</ol></body></html>" >> Traceability_Report.html
       - name: Upload changed files list
         uses: actions/upload-artifact@v3

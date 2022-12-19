@@ -16,7 +16,7 @@ def new_probability(num1, num2):   #written as a function to be more easily upda
     return (num1+num2)/2
     
 # calculates the traceabilty value for the given source and target with the given model(from a traceability library) and metric if needed
-def traceabilityResult(source, target, targetFile, feedback, model = None, metric = None):
+def traceabilityResult(source, target, targetFile, feedback, model, metric = None):
     with open(os.path.join(target, targetFile), 'r', encoding='latin1') as f: # open in readonly mode
         targetData = f.read()
         f.close()
@@ -25,8 +25,6 @@ def traceabilityResult(source, target, targetFile, feedback, model = None, metri
         with open(os.path.join(source,sourceFilename), 'r', encoding='latin1') as f:
             sourceData = f.read()
             f.close()
-        if model is None:
-            result = traceLink(sourceData,targetData)   # for the case of a different traceability library that might not have extra parameters
         if metric is None:
             result = traceLink(sourceData,targetData, model)
         else:
@@ -41,11 +39,11 @@ def traceabilityResult(source, target, targetFile, feedback, model = None, metri
     return values
 
 # outputs the traceability value for the given model to a file, organizes/labels the output
-def outputValues(model, valuesDict, outputThreshold, curFile, output):   
+def outputValues(model, valuesDict, outputThreshold, curFile, output, repository):   
     for key in valuesDict:
         if (float(valuesDict[key]) >= outputThreshold):
             print("Source File: ",key, "Target File: ", curFile, "Traceability: ",valuesDict[key])
-            output.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + curFile + ", Traceability: " + str(valuesDict[key]) + '\n')
+            output.write("<li>Model:"+ model + "\nSource File: <a href='https://github.com/{}/blob/main{}/{}'>".format(repository, sys.argv[1], key) + key + "</a>, Target File: <a href='https://github.com/{}/blob/main/{}'>".format(repository, curFile) + curFile + "</a>, Traceability: " + str(valuesDict[key]) + '</li>\n')
         
 
 os.chdir('../../')
@@ -56,6 +54,7 @@ threshold = float(sys.argv[4]) # the threshold for what traceability values to r
 feedbackSourceList = sys.argv[5].split(",")  # user feedback on the traceability value
 feedbackTargetList = sys.argv[6].split(",")
 feedbackNumList = sys.argv[7].split(",")
+repositoryName = sys.argv[8]
 print(feedbackSourceList, feedbackTargetList, feedbackNumList)
 
 input={} # dictionary to be filled
@@ -74,7 +73,7 @@ for targetFilename in targetList: # calculate the traceability values for each t
 
     with open(os.getcwd() + sys.argv[3], 'a+', encoding='latin1') as writeFile:  # ouputting each of the values for the different models from DS4SE traceability library
 
-        outputValues((param1 +", "+param2), valuesWMD, threshold, targetFilename, writeFile)
+        outputValues((param1 +", "+param2), valuesWMD, threshold, targetFilename, writeFile, repositoryName)
         # outputValues("word2vec, metric = SCM", valuesSCM, threshold, targetFilename, writeFile)
         # outputValues("doc2vec", valuesDoc, threshold, targetFilename, writeFile)
         writeFile.close()

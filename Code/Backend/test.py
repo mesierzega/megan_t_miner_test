@@ -47,7 +47,7 @@ def outputValues(model, valuesDict, outputThreshold, curFile, output):
     for key in sorted_valuesDict:
         if (float(valuesDict[key[0]]) >= outputThreshold):
             print("Source File: ",key[0], "Target File: ", curFile, "Traceability: ",valuesDict[key[0]])
-            output.write("Model:"+ model + "\nSource File: " + key + ", Target File: " + curFile + ", Traceability: " + str(sorted_valuesDict[key]) + '\n')
+            output.write("Model:"+ model + "\nSource File: " + key[0] + ", Target File: " + curFile + ", Traceability: " + str(valuesDict[key[0]]) + '\n')
         
 
 os.chdir('../../')
